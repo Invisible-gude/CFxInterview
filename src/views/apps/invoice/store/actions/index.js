@@ -14,3 +14,18 @@ export const getData = params => {
     })
   }
 }
+
+// ** ADD Task
+export const addCustomer = customer => {
+  return (dispatch, getState) => {
+    axios
+      .post('/apps/todo/add-customer', { customer })
+      .then(res => {
+        dispatch({
+          type: 'ADD_CUSTOMER',
+          customer: res.data
+        })
+      })
+      .then(dispatch(getData(getState().todo.params)))
+  }
+}

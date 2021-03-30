@@ -98,6 +98,7 @@ const Mails = props => {
 
   // ** Renders Mail
   const renderMails = () => {
+    console.log(dispatch)
     if (mails.length) {
       return mails.map((mail, index) => {
         return (

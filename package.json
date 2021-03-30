@@ -15,6 +15,7 @@
     "@tinymce/tinymce-react": "3.8.3",
     "@uppy/react": "1.10.8",
     "animate.css": "4.1.1",
+    "antd": "^4.15.0",
     "apexcharts": "3.22.0",
     "availity-reactstrap-validation-safe": "2.6.1",
     "axios": "0.19.2",

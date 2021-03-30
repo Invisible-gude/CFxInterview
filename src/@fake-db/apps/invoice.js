@@ -12,7 +12,9 @@ const data = {
         companyEmail: 'don85@johnson.com',
         country: 'USA',
         contact: '(616) 865-4180',
-        name: 'Jordan Stevenson'
+        name: 'Jordan Stevenson',
+        zipcode: '111111',
+        tin: '1212312121'
       },
       service: 'Software Development',
       total: 3428,
@@ -30,7 +32,9 @@ const data = {
         companyEmail: 'brenda49@taylor.info',
         country: 'Haiti',
         contact: '(226) 204-8287',
-        name: 'Stephanie Burns'
+        name: 'Stephanie Burns',
+        zipcode: '222222',
+        tin: '5656656565'
       },
       service: 'UI/UX Design & Development',
       total: 5219,
@@ -48,7 +52,10 @@ const data = {
         companyEmail: 'smithtiffany@powers.com',
         country: 'Denmark',
         contact: '(955) 676-1076',
-        name: 'Tony Herrera'
+        name: 'Tony Herrera',
+        zipcode: '333333',
+        tin: '1234567890'
+
       },
       service: 'Unlimited Extended License',
       total: 3719,
@@ -66,7 +73,9 @@ const data = {
         companyEmail: 'mejiageorge@lee-perez.com',
         country: 'Cambodia',
         contact: '(832) 323-6914',
-        name: 'Kevin Patton'
+        name: 'Kevin Patton',
+        zipcode: '444444',
+        tin: '0987654321'
       },
       service: 'Software Development',
       total: 4749,
@@ -84,7 +93,9 @@ const data = {
         companyEmail: 'brandon07@pierce.com',
         country: 'Martinique',
         contact: '(970) 982-3353',
-        name: 'Mrs. Julie Donovan MD'
+        name: 'Mrs. Julie Donovan MD',
+        zipcode: '555555',
+        tin: '2345678987'
       },
       service: 'UI/UX Design & Development',
       total: 4056,
