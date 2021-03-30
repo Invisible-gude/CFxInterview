@@ -8,7 +8,7 @@ import Flatpickr from 'react-flatpickr'
 import { FileText, Hash, Edit, ChevronDown, X, Plus } from 'react-feather'
 import {
   Label, Input, CustomInput, Row, Col, Card, Form, FormGroup,
-  InputGroup, Table, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem
+  InputGroup, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap'
 import Sidebar from '@components/sidebar'
 // ** Store & Actions
