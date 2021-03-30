@@ -20,14 +20,14 @@ import '@styles/react/apps/app-invoice.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import '@styles/base/pages/page-auth.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
-
+import '../../../../assets/scss/my-css.css'
 import axios from 'axios'
 import Select from 'react-select'
 
 
 const CustomHeader = () => {
   return (
-    <div className='invoice-list-table-header w-100 py-2'>
+    <div className='div-body'>
       <Row>
         <Col lg='6' className='d-flex align-items-center px-0 px-lg-1'>
           <div className='d-flex align-items-center mr-2'>
@@ -105,383 +105,339 @@ const CustomBody = ({ setData, setOpenSidebar, openSidebar }) => {
   }
 
   return (
-    <div className='invoice-list-table-body w-100 py-2'>
+    <div className='div-body'>
       <Row>
-        <Col>
-          <Row>
-            <Col xs="9">
-              <Col>
-                <Col xs="5">
+        <Col lg={6}>
+          <FormGroup className="input-width">
+            <Label for="exampleSelect" className="label">ชื่อลูกค้า</Label>
+            <Select
+              options={setData}
+              value={setData.find(obj => obj.value === selectedValue)}
+              placeholder=""
+              onChange={handleChange}
+            />
+          </FormGroup>
+          <Label for="exampleSelect" className="label">รายละเอียด</Label>
+          <div class="flex-container">
+            <div class="flex-item-left">
+              <Input type="textarea" name="address" id="exampleText" placeholder="รายละเอียดที่อยู่" value={add.address} />
+            </div>
+            <div class="flex-item-right">
+              <InputGroup>
+                <Edit
+                  id='header'
+                  size={14}
+                  color='#5c80ed'
+                  style={{ alignSelf: 'center', marginLeft: '10px', marginRight: '5px' }}
+                />
+                <Label for='rows-per-page' className='mb-0' className="labelblue">  แก้ไขรายชื่อผู้ติดต่อ</Label>
+              </InputGroup>
+            </div>
+          </div>
+          <FormGroup className="input-width">
+            <Input type="text" name="zipcode" id="exampleZipcode" placeholder="รหัสไปรษณีย์" value={add.zipcode} />
+            <Input type="text" name="TIN" id="exampleTIN" placeholder="เลขประจำตัวผู้เสียภาษี" value={add.tin} />
+            <Input type="text" name="company" id="exampleCompany" placeholder="สำนักงาน/สาขาเลขที่" value={add.country} />
+          </FormGroup>
+        </Col>
+        <Col lg={6}>
+          <div class="float-right">
+            <Row >
+              <Col xs={4}>
+                <h5 for="exampleDate" sm={2} className="label">วันที่:</h5>
+              </Col>
+              <Col xs={8}>
+                <InputGroup>
+                  <Flatpickr
+                    id='due-date'
+                    name='due-date'
+                    className='form-control'
+                    // onChange={date => setDueDate(date[0])}
+                    value={dueDate}
+                    options={{ dateFormat: 'Y-m-d' }}
+                  />
+                </InputGroup>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={4}>
+                <h5 for="exampleCash" sm={2} className="label">เงินสด:</h5>
+              </Col>
+              <Col xs={8}>
+                <InputGroup>
+                  <Input type="select" name="select" id="exampleSelect" disabled>
+                    <option>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                  </Input>
+                </InputGroup>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={4}>
+                <h5 for="exampleDate" sm={2} className="label">พนักงานขาย:</h5>
+              </Col>
+              <Col xs={8}>
+                <InputGroup>
+                  <Input type="select" name="select" id="exampleSelect">
+                    <option>Employee #A</option>
+                    <option>Employee #B</option>
+                    <option>Employee #C</option>
+                    <option>Employee #D</option>
+                  </Input>
+                </InputGroup>
+              </Col>
+            </Row>
+            <FormGroup>
+              <div>
+                <CustomInput type="checkbox" id="exampleDiscount" label="ส่วนลดแยกรายการ" onChange={onChangeDiscount} />
+                <CustomInput type="checkbox" id="exampleVat" label="ภาษีมูลค่าเพิ่มแยกรายการ" onChange={onChangeVat} />
+              </div>
+            </FormGroup>
+          </div>
+        </Col>
+      </Row >
+      <hr />
+      <Row >
+        <Col lg={1} style={{ alignSelf: 'center' }}>
+          <Label for="exampleprojectName" className="label">ชื่อโปรเจค:</Label>
+        </Col>
+        <Col lg={8}>
+          <Input type="text" name="projectName" id="exampleprojectName" placeholder="" />
+        </Col>
+        <Col lg={1} style={{ alignSelf: 'center' }}>
+          <Label for="exampleprojectId" className="label">เลขที่อ้างอิง:</Label>
+        </Col>
+        <Col lg={2}>
+          <Input type="text" name="projectId" id="exampleprojectId" placeholder="" />
+        </Col>
+      </Row>
+      <br />
+      <div className="div-table ">
+        <Row className='justify-content-between align-items-center align-content-center'>
+          <Col md={3}>
+            <FormGroup>
+              <Label for={`cost`} className="label">ชิ่อสินค้า/รายละเอียด</Label>
+            </FormGroup>
+          </Col>
+          <Col md={2}>
+            <FormGroup>
+              <Label for={`quantity`} className="label">ราคาต่อหน่วย</Label>
+            </FormGroup>
+          </Col>
+          {discountCheck ? <Col xs={1}>
+            <FormGroup row>
+              <Label for="exampleEmail" className="label">ส่วนลด {selectedDiscountValue}</Label>
+              <Col sm={2}>
+                <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+                  <DropdownToggle
+                    tag="span"
+                    data-toggle="dropdown"
+                    aria-expanded={dropdownOpen}
+                  >
+                    <ChevronDown
+                      id='header'
+                      size={10}
+                    />
+                  </DropdownToggle>
+
+                  <DropdownMenu container="body">
+                    <DropdownItem onClick={() => handleDiscountChange('(%)')}>เปอร์เซ็น (%)</DropdownItem>
+                    <DropdownItem onClick={() => handleDiscountChange('(฿)')}>จำนวนเงิน (฿)</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </Col>
+            </FormGroup>
+          </Col> : null}
+          {vatCheck ? <Col md={1}>
+            <FormGroup>
+              <Label for={`quantity`} className="label">ภาษี</Label>
+            </FormGroup>
+          </Col> : null}
+          <Col md={discountCheck || vatCheck ? 1 : 2}>
+            <FormGroup>
+              <Label for={`quantity`} className="label">จำนวน</Label>
+            </FormGroup>
+          </Col>
+          <Col md={discountCheck || vatCheck ? 1 : 2}>
+            <FormGroup>
+              <Label for={`quantity`} className="label">หน่วย</Label>
+            </FormGroup>
+          </Col>
+          <Col md={discountCheck || vatCheck ? 1 : 2}>
+            <FormGroup>
+              <Label for={`quantity`} className="label">ราคารวม</Label>
+            </FormGroup>
+          </Col>
+          <Col md={1}>
+          </Col>
+        </Row>
+        <Repeater count={count}>
+          {i => (
+            <Form key={i}>
+              <Row className='justify-content-between align-items-center'>
+                <Col md={3}>
                   <FormGroup>
-                    <Label for="exampleSelect">ชื่อลูกค้า</Label>
-                    <Select
-                      options={setData}
-                      value={setData.find(obj => obj.value === selectedValue)}
-                      placeholder=""
-                      onChange={handleChange}
-                    />
+                    <Input type="select" name="appSelect" id="exampleAppSelect">
+                      <option>App Design</option>
+                      <option>App Customization</option>
+                      <option>ABC Template</option>
+                      <option>App Development</option>
+                    </Input>
+                    <Input type='textarea' id={`cost-${i}`} placeholder='' />
                   </FormGroup>
                 </Col>
-                <Col xs="12">
-                  <Label for="exampleSelect">รายละเอียด</Label>
-                  <Row>
-                    <Col xs="5">
-                      <Input type="textarea" name="address" id="exampleText" placeholder="รายละเอียดที่อยู่" value={add.address} />
-                    </Col>
-                    <Col className='d-flex align-items-center px-0 px-lg-1'>
-                      <Edit
-                        id='header'
-                        size={10}
-                        color='#5c80ed'
-                      />
-
-                      <Label for='rows-per-page' className='mb-0' style={{ color: '#5c80ed' }}>แก้ไขรายชื่อผู้ติดต่อ</Label>
-                    </Col>
-                  </Row>
+                <Col md={2}>
+                  <FormGroup>
+                    <Input type='number' id={`quantity-${i}`} placeholder='' value={1} className="" />
+                  </FormGroup>
                 </Col>
-                <Col xs="5">
-                  <Input type="text" name="zipcode" id="exampleZipcode" placeholder="รหัสไปรษณีย์" value={add.zipcode} />
-                  <Input type="text" name="TIN" id="exampleTIN" placeholder="เลขประจำตัวผู้เสียภาษี" value={add.tin} />
-                  <Input type="text" name="company" id="exampleCompany" placeholder="สำนักงาน/สาขาเลขที่" value={add.country} />
+                {discountCheck === true ? <Col xs={1}>
+                  <FormGroup row>
+                    <Input type='number' id={`quantity-${i}`} placeholder='' value={1} className="" />
+                  </FormGroup>
+                </Col> : null}
+                {vatCheck === true ? <Col md={1}>
+                  <FormGroup>
+                    <Input type='number' id={`quantity-${i}`} placeholder='' value={1} className="" />
+                  </FormGroup>
+                </Col> : null}
+                <Col md={discountCheck || vatCheck ? 1 : 2}>
+                  <FormGroup>
+                    <Input type='number' id={`quantity-${i}`} placeholder='' value={1} className="" />
+                  </FormGroup>
                 </Col>
-              </Col>
-            </Col>
-
-            <Col xs="3" className="p-2 d-flex flex-column pr-100" >
-              <Row>
-                <Col xs="4"></Col>
-                {topMenu.map(item => <Col>
-                  <div>
-                    <img className='d-block  mr-50' src={item.img} height='26' width='26' alt={item.label} />
-                    <Label>{item.label}</Label>
-                  </div>
-                </Col>
-                )}
-              </Row>
-              <FormGroup row>
-                <h5 for="exampleEmail" sm={2}>จำนวนเงินรวมทั้งสิ้น</h5>
-              </FormGroup>
-              <FormGroup row>
-                <h1 for="exampleEmail" sm={2} style={{ color: '#5c80ed' }}>{total_price}</h1>
-              </FormGroup>
-              <Row>
-                <Col xs="4">
-                  <h5 for="exampleDate" sm={2}>วันที่:</h5>
-                </Col>
-                <Col xs="7">
-                  <InputGroup>
-                    <Flatpickr
-                      id='due-date'
-                      name='due-date'
-                      className='form-control'
-                      // onChange={date => setDueDate(date[0])}
-                      value={dueDate}
-                      options={{ dateFormat: 'Y-m-d' }}
-                    />
-                  </InputGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs="4">
-                  <h5 for="exampleCash" sm={2}>เงินสด:</h5>
-                </Col>
-                <Col xs="7">
-                  <InputGroup>
-                    <Input type="select" name="select" id="exampleSelect" disabled>
-                      <option>0</option>
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
+                <Col md={discountCheck || vatCheck ? 1 : 2}>
+                  <FormGroup>
+                    <Input type="select" name="unitSelect" id="exampleUnitSelect">
+                      <option>ชิ้น</option>
+                      <option>กล่อง</option>
+                      <option>แพค</option>
                     </Input>
-                  </InputGroup>
+                  </FormGroup>
+                </Col>
+                <Col md={discountCheck || vatCheck ? 1 : 2}>
+                  <FormGroup>
+                    <Input type='number' id={`quantity-${i}`} placeholder='' value={1} className="" />
+                  </FormGroup>
+                </Col>
+                <Col md={1}>
+                  <Button.Ripple color='danger' className='text-nowrap px-1' onClick={deleteForm} >
+                    <X size={14} className='mr-50' />
+                    <span></span>
+                  </Button.Ripple>
                 </Col>
               </Row>
-              <Row>
-                <Col xs="4">
-                  <h5 for="exampleDate" sm={2}>พนักงานขาย:</h5>
-                </Col>
-                <Col xs="7">
-                  <InputGroup>
-                    <Input type="select" name="select" id="exampleSelect">
-                      <option>Employee #A</option>
-                      <option>Employee #B</option>
-                      <option>Employee #C</option>
-                      <option>Employee #D</option>
-                    </Input>
-                  </InputGroup>
-                </Col>
-              </Row>
-              <FormGroup>
-                <div>
-                  <CustomInput type="checkbox" id="exampleDiscount" label="ส่วนลดแยกรายการ" onChange={onChangeDiscount} />
-                  <CustomInput type="checkbox" id="exampleVat" label="ภาษีมูลค่าเพิ่มแยกรายการ" onChange={onChangeVat} />
-                </div>
-              </FormGroup>
-            </Col>
+            </Form>
+          )}
+        </Repeater>
+        <Button outline color="primary" onClick={increaseCount}>+ เพิ่มรายการสินค้า</Button>
+      </div>
+      <br />
+      <br />
+      <br />
 
+      <Row>
+        <Col lg={6}>
+          <CustomInput type="checkbox" id="exampleLicense" label="ลายเซ็นอิเล็กทรอนิกส์และตรายาง" />
+          <br />
+          <Row >
+            <Col xs={5}>
+              <Label for="exampleSelect" className="label">หมายเหตุ: </Label>
+              <Input type="textarea" name="ps" id="examplePS" placeholder="" />
+            </Col>
+            <Col xs={5}>
+              <Label for="exampleSelect" className="label">โน๊ตภายในบริษัท: </Label>
+              <Input type="textarea" name="note" id="exampleNote" placeholder="" />
+            </Col>
           </Row>
-          <hr />
-          <Col>
-            <Col>
-              <Row>
-                <Col xs="9">
-                  <FormGroup row>
-                    <h5 for="exampleprojectName" sm={2}>ชื่อโปรเจค:</h5>
-                    <Col>
-                      <InputGroup>
-                        <Input type="text" name="projectName" id="exampleprojectName" placeholder="" />
-                      </InputGroup>
-                    </Col>
-                  </FormGroup>
-                </Col>
-                <Col xs="3">
-                  <FormGroup row>
-                    <h5 for="exampleprojectId" sm={2}>เลขที่อ้างอิง:</h5>
-                    <Col>
-                      <InputGroup>
-                        <Input type="text" name="projectId" id="exampleprojectId" placeholder="" />
-                      </InputGroup>
-                    </Col>
-                  </FormGroup>
-                </Col>
-              </Row>
-            </Col>
-
-
-            <Row className='justify-content-between align-items-center align-content-center'>
-              {/* <Col md={1}>
-                <FormGroup>
-                  <Label for={`item-name`}>ลำดับ</Label>
-                </FormGroup>
-              </Col> */}
-              <Col md={3}>
-                <FormGroup>
-                  <Label for={`cost`}>ชิ่อสินค้า/รายละเอียด</Label>
-                </FormGroup>
+        </Col>
+        <Col lg={6}>
+          <div class="float-right">
+            <Row>
+              <Col xs={5}>
+                <Label for="exampleSelect" className="labelblue">รวมเป็นเงิน </Label>
               </Col>
-              <Col md={1}>
-                <FormGroup>
-                  <Label for={`quantity`}>ราคาต่อหน่วย</Label>
-                </FormGroup>
+              <Col>
               </Col>
-              {discountCheck === true ? <Col xs={1}>
-                <FormGroup row>
-                  <Label for="exampleEmail" >ส่วนลด {selectedDiscountValue}</Label>
-                  <Col sm={2}>
-                    <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-                      <DropdownToggle
-                        tag="span"
-                        data-toggle="dropdown"
-                        aria-expanded={dropdownOpen}
-                      >
-                        <ChevronDown
-                          id='header'
-                          size={10}
-                        />
-                      </DropdownToggle>
-
-                      <DropdownMenu container="body">
-                        <DropdownItem onClick={() => handleDiscountChange('(%)')}>เปอร์เซ็น (%)</DropdownItem>
-                        <DropdownItem onClick={() => handleDiscountChange('(฿)')}>จำนวนเงิน (฿)</DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
+              <Col>
+                <Label for="exampleSelect" className="label-footer">2000.00</Label>
+              </Col>
+            </Row>
+            <Row>
+              <Col style={{ alignSelf: 'center' }} xs={5}>
+                <Label for="exampleDate" className="labelblue" style={{ alignSelf: 'center' }}>ค่าส่วนลด</Label>
+              </Col>
+              <Col>
+                <Row>
+                  <Col xs={9}>
+                    <Input type="text" name="projectId" id="exampleprojectId" placeholder="" />
                   </Col>
-                </FormGroup>
-              </Col> : null}
-              {vatCheck === true ? <Col md={1}>
-                <FormGroup>
-                  <Label for={`quantity`}>ภาษี</Label>
-                </FormGroup>
-              </Col> : null}
-              <Col md={1}>
-                <FormGroup>
-                  <Label for={`quantity`}>จำนวน</Label>
-                </FormGroup>
+                  <Col style={{ alignSelf: 'center' }} xs={1}>
+                    <Label for="exampleSelect" className="labelblue">%</Label>
+                  </Col>
+                </Row>
               </Col>
-              <Col md={1}>
-                <FormGroup>
-                  <Label for={`quantity`}>หน่วย</Label>
-                </FormGroup>
+              <Col style={{ alignSelf: 'center' }}>
+                <Label for="exampleSelect" className="label-footer">100.00</Label>
               </Col>
-              <Col md={1}>
-                <FormGroup>
-                  <Label for={`quantity`}>ราคารวม</Label>
-                </FormGroup>
+            </Row>
+            <Row>
+              <Col xs={5}>
+                <Label for="exampleSelect" className="labelblue">ราคาหลังหักส่วนลด </Label>
               </Col>
-              <Col md={1}>
+              <Col>
+              </Col>
+              <Col>
+                <Label for="exampleSelect" className="label-footer">1900.00</Label>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={5}>
+                <Label for="exampleSelect" className="labelblue">จำนวนเงินรวมทั้งสิ้น </Label>
+              </Col>
+              <Col>
+              </Col>
+              <Col>
+                <Label for="exampleSelect" className="label-footer">1900.00</Label>
               </Col>
             </Row>
             <hr />
-
-            <Repeater count={count}>
-              {i => (
-                <Form key={i}>
-                  <Row className='justify-content-between align-items-center'>
-                    {/* <Col md={1}>
-                      <FormGroup>
-                        <Label>{i + 1}</Label>
-                      </FormGroup>
-                    </Col> */}
-                    <Col md={3}>
-                      <FormGroup>
-                        <Input type="select" name="appSelect" id="exampleAppSelect">
-                          <option>App Design</option>
-                          <option>App Customization</option>
-                          <option>ABC Template</option>
-                          <option>App Development</option>
-                        </Input>
-                        <Input type='textarea' id={`cost-${i}`} placeholder='' />
-                      </FormGroup>
-                    </Col>
-                    <Col md={1}>
-                      <FormGroup>
-                        <Input type='number' id={`quantity-${i}`} placeholder='' value={1} className="" />
-                      </FormGroup>
-                    </Col>
-                    {discountCheck === true ? <Col xs={1}>
-                      <FormGroup row>
-                        <Input type='number' id={`quantity-${i}`} placeholder='' value={1} className="" />
-                      </FormGroup>
-                    </Col> : null}
-                    {vatCheck === true ? <Col md={1}>
-                      <FormGroup>
-                        <Input type='number' id={`quantity-${i}`} placeholder='' value={1} className="" />
-                      </FormGroup>
-                    </Col> : null}
-                    <Col md={1}>
-                      <FormGroup>
-                        <Input type='number' id={`quantity-${i}`} placeholder='' value={1} className="" />
-                      </FormGroup>
-                    </Col>
-                    <Col md={1}>
-                      <FormGroup>
-                        <Input type="select" name="unitSelect" id="exampleUnitSelect">
-                          <option>ชิ้น</option>
-                          <option>กล่อง</option>
-                          <option>แพค</option>
-                        </Input>
-                      </FormGroup>
-                    </Col>
-                    <Col md={1}>
-                      <FormGroup>
-                        <Input type='number' id={`quantity-${i}`} placeholder='' value={1} className="" />
-                      </FormGroup>
-                    </Col>
-                    <Col md={1}>
-                      <Button.Ripple color='danger' className='text-nowrap px-1' onClick={deleteForm} >
-                        <X size={14} className='mr-50' />
-                        <span></span>
-                      </Button.Ripple>
-                    </Col>
-                  </Row>
-                </Form>
-              )}
-            </Repeater>
-            <Button outline color="primary" onClick={increaseCount}>+ เพิ่มรายการสินค้า</Button>
-            <br />
-            <br />
-            <br />
-
             <Row>
-              <Col xs="9">
-                <CustomInput type="checkbox" id="exampleLicense" label="ลายเซ็นอิเล็กทรอนิกส์และตรายาง" />
-                <br />
-
-                <Col xs="7">
-                  <Row>
-                    <Col>
-                      <FormGroup>
-                        <Label for="exampleSelect">หมายเหตุ: </Label>
-                        <Input type="textarea" name="address" id="exampleText" placeholder="รายละเอียดที่อยู่" />
-                      </FormGroup>
-                    </Col>
-                    <Col>
-                      <FormGroup>
-                        <Label for="exampleSelect" >โน๊ตภายในบริษัท: </Label>
-                        <Input type="textarea" name="address" id="exampleText" placeholder="รายละเอียดที่อยู่" />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                </Col>
+              <Col style={{ alignSelf: 'center' }} xs={5}>
+                <Row>
+                  <Col xs={1}>
+                    <CustomInput type="checkbox" id="exampleVatCheck" className="labelblue" />
+                  </Col>
+                  <Col>
+                    <Label for="exampleSelect" className="labelblue">หักภาษี ณ ที่จ่าย </Label>
+                  </Col>
+                </Row>
               </Col>
-              <Col xs="3">
-                <Row>
-                  <Col xs="9">
-                    <Label for="exampleSelect" style={{ color: '#5c80ed' }}>รวมเป็นเงิน </Label>
-                  </Col>
-                  <Col xs="3">
-                    <Label for="exampleSelect">2000.00</Label>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs="9">
-                    <FormGroup row>
-                      <Label for="exampleDate" sm={4} style={{ color: '#5c80ed' }}>ค่าส่วนลด</Label>
-                      <Col sm={6}>
-                        <InputGroup>
-                          <Input type="text" name="projectId" id="exampleprojectId" placeholder="" />
-                        </InputGroup>
-                      </Col>
-                      <Label for="exampleSelect" style={{ color: '#5c80ed' }}>%</Label>
-                    </FormGroup>
-                  </Col>
-                  <Col xs="3">
-                    <Label for="exampleSelect" >100.00</Label>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs="9">
-                    <Label for="exampleSelect" style={{ color: '#5c80ed' }}>ราคาหลังหักส่วนลด </Label>
-                  </Col>
-                  <Col xs="3">
-                    <Label for="exampleSelect">1900.00</Label>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs="9">
-                    <Label for="exampleSelect" style={{ color: '#5c80ed' }}>จำนวนเงินรวมทั้งสิ้น </Label>
-                  </Col>
-                  <Col xs="3">
-                    <Label for="exampleSelect">1900.00</Label>
-                  </Col>
-                </Row>
-                <hr />
-                <Row>
-                  <Col xs="9">
-                    <FormGroup row>
-                      <CustomInput type="checkbox" id="exampleVatCheck" />
-                      <Label style={{ color: '#5c80ed' }}>หักภาษี ณ ที่จ่าย</Label>
-                      <Col sm={6}>
-                        <InputGroup>
-                          <Input type="select" name="select" id="exampleSelect" >
-                            <option>3%</option>
-                            <option>7%</option>
-                          </Input>
-                        </InputGroup>
-                      </Col>
-                    </FormGroup>
-                  </Col>
-                  <Col xs="3">
-                    <Label for="exampleSelect">57.00</Label>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs="9">
-                    <Label for="exampleSelect" style={{ color: '#5c80ed' }}>ยอดชำระ </Label>
-                  </Col>
-                  <Col xs="3">
-                    <Label for="exampleSelect">1843.00</Label>
-                  </Col>
-                </Row>
-
+              <Col>
+                <Input type="select" name="select" id="exampleSelect" >
+                  <option>3%</option>
+                  <option>7%</option>
+                </Input>
+              </Col>
+              <Col style={{ alignSelf: 'center' }}>
+                <Label for="exampleSelect" className="label-footer">57.00</Label>
               </Col>
             </Row>
-
-          </Col>
-          {/* <hr /> */}
+            <Row>
+              <Col xs={5}>
+                <Label for="exampleSelect" className="labelblue">ยอดชำระ </Label>
+              </Col>
+              <Col>
+              </Col>
+              <Col>
+                <Label for="exampleSelect" className="label-footer">1843.00</Label>
+              </Col>
+            </Row>
+          </div>
         </Col>
       </Row>
-
     </div >
   )
 }
