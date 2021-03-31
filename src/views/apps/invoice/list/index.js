@@ -69,7 +69,6 @@ const CustomBody = ({ setData, setOpenSidebar, openSidebar }) => {
     setSelectedDiscountValue(value)
     console.log(value)
   }
-  const total_price = '1,900.00'
   const topMenu = [
     {
       img: require('@src/assets/images/icons/printing.png').default,
@@ -176,7 +175,7 @@ const CustomBody = ({ setData, setOpenSidebar, openSidebar }) => {
             </Row>
             <Row>
               <Col xs={4}>
-                <h5 for="exampleDate" sm={2} className="label">พนักงานขาย:</h5>
+                <h5 for="exampleDate" sm={3} className="label">พนักงานขาย:</h5>
               </Col>
               <Col xs={8}>
                 <InputGroup>
@@ -214,123 +213,130 @@ const CustomBody = ({ setData, setOpenSidebar, openSidebar }) => {
         </Col>
       </Row>
       <br />
-      <div className="div-table ">
-        <Row className='justify-content-between align-items-center align-content-center'>
-          <Col md={3}>
-            <FormGroup>
-              <Label for={`cost`} className="label">ชิ่อสินค้า/รายละเอียด</Label>
-            </FormGroup>
-          </Col>
-          <Col md={2}>
-            <FormGroup>
-              <Label for={`quantity`} className="label">ราคาต่อหน่วย</Label>
-            </FormGroup>
-          </Col>
-          {discountCheck ? <Col xs={1}>
-            <FormGroup row>
-              <Label for="exampleEmail" className="label">ส่วนลด {selectedDiscountValue}</Label>
-              <Col sm={2}>
-                <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-                  <DropdownToggle
-                    tag="span"
-                    data-toggle="dropdown"
-                    aria-expanded={dropdownOpen}
-                  >
-                    <ChevronDown
-                      id='header'
-                      size={10}
-                    />
-                  </DropdownToggle>
 
-                  <DropdownMenu container="body">
-                    <DropdownItem onClick={() => handleDiscountChange('(%)')}>เปอร์เซ็น (%)</DropdownItem>
-                    <DropdownItem onClick={() => handleDiscountChange('(฿)')}>จำนวนเงิน (฿)</DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              </Col>
-            </FormGroup>
-          </Col> : null}
-          {vatCheck ? <Col md={1}>
-            <FormGroup>
-              <Label for={`quantity`} className="label">ภาษี</Label>
-            </FormGroup>
-          </Col> : null}
-          <Col md={discountCheck || vatCheck ? 1 : 2}>
-            <FormGroup>
-              <Label for={`quantity`} className="label">จำนวน</Label>
-            </FormGroup>
+      <div className="div-table p-2  ">
+        <Row>
+          <Col className='mb-lg-0 mb-2 mt-lg-0 mt-2' lg={4} sm={12}>
+            <Label className='col-title mb-md-50 mb-0 label'>ชื่อสินค้า/รายละเอียด</Label>
           </Col>
-          <Col md={discountCheck || vatCheck ? 1 : 2}>
-            <FormGroup>
-              <Label for={`quantity`} className="label">หน่วย</Label>
-            </FormGroup>
+          <Col className='mb-lg-0 mb-2 mt-lg-0 mt-2 pl-0' lg={2} sm={12}>
+            <Label className='col-title mb-md-2 mb-0 label'>จำนวน</Label>
           </Col>
-          <Col md={discountCheck || vatCheck ? 1 : 2}>
-            <FormGroup>
-              <Label for={`quantity`} className="label">ราคารวม</Label>
-            </FormGroup>
+          {
+            discountCheck &&
+            <Col className='mb-lg-0 mb-2 mt-lg-0 mt-2 pl-0' lg={1} sm={12} row>
+              <Row>
+                <Col lg={7}>
+                  <Label className='col-title mb-md-50 mb-0 label'>ส่วนลด{selectedDiscountValue}</Label>
+                </Col>
+                <Col>
+                  <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+                    <DropdownToggle
+                      tag="span"
+                      data-toggle="dropdown"
+                      aria-expanded={dropdownOpen}
+                    >
+                      <ChevronDown
+                        id='header'
+                        size={13}
+                      />
+                    </DropdownToggle>
+                    <DropdownMenu container="body">
+                      <DropdownItem onClick={() => handleDiscountChange('(%)')}>เปอร์เซ็น (%)</DropdownItem>
+                      <DropdownItem onClick={() => handleDiscountChange('(฿)')}>จำนวนเงิน (฿)</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </Col>
+              </Row>
+            </Col>
+          }
+          {
+            vatCheck &&
+            <Col className='mb-lg-0 mb-2 mt-lg-0 mt-2 pl-0' lg={1} sm={12}>
+              <Label className='col-title mb-md-50 mb-0 label'>ภาษี</Label>
+            </Col>
+          }
+          <Col
+            className='my-lg-0 my-2 pl-0'
+            lg={!discountCheck && !vatCheck ? 2 : discountCheck && !vatCheck ? 2 : !discountCheck && vatCheck ? 2 : 1}
+            sm='12'>
+            <Label className='col-title mb-md-2 mb-0 label'>หน่วย</Label>
           </Col>
-          <Col md={1}>
+          <Col
+            className='my-lg-0 mt-2 pl-0'
+            lg={!discountCheck && !vatCheck ? 2 : 1}
+            sm={12}>
+            <Label className='col-title mb-md-50 mb-0 label'>ราคาต่อหน่วย</Label>
+          </Col>
+          <Col
+            className='my-lg-0 mt-2 pl-0'
+            lg={2}
+            sm={12}>
+            <Label className='col-title mb-md-50 mb-0 label'>ราคารวม</Label>
           </Col>
         </Row>
         <Repeater count={count}>
-          {i => (
-            <Form key={i}>
-              <Row className='justify-content-between align-items-center'>
-                <Col md={3}>
-                  <FormGroup>
-                    <Input type="select" name="appSelect" id="exampleAppSelect">
-                      <option>App Design</option>
-                      <option>App Customization</option>
-                      <option>ABC Template</option>
-                      <option>App Development</option>
-                    </Input>
-                    <Input type='textarea' id={`cost-${i}`} placeholder='' />
-                  </FormGroup>
-                </Col>
-                <Col md={2}>
-                  <FormGroup>
-                    <Input type='number' id={`quantity-${i}`} placeholder='' value={1} className="" />
-                  </FormGroup>
-                </Col>
-                {discountCheck === true ? <Col xs={1}>
-                  <FormGroup row>
-                    <Input type='number' id={`quantity-${i}`} placeholder='' value={1} className="" />
-                  </FormGroup>
-                </Col> : null}
-                {vatCheck === true ? <Col md={1}>
-                  <FormGroup>
-                    <Input type='number' id={`quantity-${i}`} placeholder='' value={1} className="" />
-                  </FormGroup>
-                </Col> : null}
-                <Col md={discountCheck || vatCheck ? 1 : 2}>
-                  <FormGroup>
-                    <Input type='number' id={`quantity-${i}`} placeholder='' value={1} className="" />
-                  </FormGroup>
-                </Col>
-                <Col md={discountCheck || vatCheck ? 1 : 2}>
-                  <FormGroup>
-                    <Input type="select" name="unitSelect" id="exampleUnitSelect">
-                      <option>ชิ้น</option>
-                      <option>กล่อง</option>
-                      <option>แพค</option>
-                    </Input>
-                  </FormGroup>
-                </Col>
-                <Col md={discountCheck || vatCheck ? 1 : 2}>
-                  <FormGroup>
-                    <Input type='number' id={`quantity-${i}`} placeholder='' value={1} className="" />
-                  </FormGroup>
-                </Col>
-                <Col md={1}>
-                  <Button.Ripple color='danger' className='text-nowrap px-1' onClick={deleteForm} >
-                    <X size={14} className='mr-50' />
-                    <span></span>
-                  </Button.Ripple>
-                </Col>
-              </Row>
-            </Form>
-          )}
+          {i => {
+            return (
+              <Form key={i} className='repeater-wrapper'>
+                <Row>
+                  <Col className='d-flex product-details-border position-relative pr-0' sm={12}>
+                    <Row className='w-100 pr-lg-0 pr-1 py-2'>
+                      <Col className='mb-lg-0 mb-2 mt-lg-0 mt-2' lg={4} sm={12}>
+                        <Input type='select' className='item-details'>
+                          <option>App Design</option>
+                          <option>App Customization</option>
+                          <option>ABC Template</option>
+                          <option>App Development</option>
+                        </Input>
+                        <Input type='textarea' defaultValue='' />
+                      </Col>
+                      <Col className='my-lg-0 my-2 pl-0' lg={2} sm={12}>
+                        <Input type='number' className='text-right' defaultValue='1' placeholder='' />
+                      </Col>
+                      {
+                        discountCheck &&
+                        <Col className='mb-lg-0 mb-2 mt-lg-0 mt-2 pl-0' lg={1} sm={12}>
+                          <Input type='text' className='text-right' defaultValue='1' />
+                        </Col>
+                      }
+                      {
+                        vatCheck &&
+                        <Col className='mb-lg-0 mb-2 mt-lg-0 mt-2 pl-0' lg={1} sm={12}>
+                          <Input type='text' className='text-right' defaultValue='1' />
+                        </Col>
+                      }
+                      <Col
+                        className='my-lg-0 my-2 pl-0'
+                        lg={!discountCheck && !vatCheck ? 2 : discountCheck && !vatCheck ? 2 : !discountCheck && vatCheck ? 2 : 1}
+                        sm={12}>
+                        <Input type='select' className='item-details'>
+                          <option>ชิ้น</option>
+                          <option>กล่อง</option>
+                          <option>แพค</option>
+                        </Input>
+                      </Col>
+                      <Col
+                        className='my-lg-0 mt-2 pl-0'
+                        lg={!discountCheck && !vatCheck ? 2 : 1}
+                        sm={12}>
+                        <Input type='number' className='text-right' defaultValue='1' placeholder='' />
+                      </Col>
+                      <Col className='my-lg-0 mt-2 pl-0 text-right' lg={1} sm={12}>
+                        <Input type='text' className='text-right' defaultValue='1' />
+                      </Col>
+                      <Col className='my-lg-0 mt-2 p-0 text-center' lg={1} sm={12}>
+                        <Button.Ripple color='danger' className='text-nowrap px-1' onClick={deleteForm} >
+                          <X size={14} className='mr-50' />
+                          <span></span>
+                        </Button.Ripple>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </Form>
+            )
+          }}
         </Repeater>
         <Button outline color="primary" onClick={increaseCount}>+ เพิ่มรายการสินค้า</Button>
       </div>
